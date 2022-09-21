@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 
 import Popup from './Popup';
-import './index.css';
+import './index.scss';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';

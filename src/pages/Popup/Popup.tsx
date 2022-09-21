@@ -99,7 +99,7 @@ function Popup() {
         <ul className="list-group">
           {gitlabConfiguration.projects.map(function (gitlabProject, index) {
             return <li className='list-group-item d-flex justify-content-between align-items-center' key={gitlabProject.project + gitlabProject.branch}>
-              {gitlabProject.project} ({gitlabProject.branch})
+              <a href={ `${gitlabConfiguration.host}/${gitlabProject.project}/-/pipelines?page=1&scope=branches&ref=${gitlabProject.branch}` } target="_blank">{gitlabProject.project} ({gitlabProject.branch})</a>
               <span>
                 {
                   {
