@@ -19,6 +19,5 @@
     "32": "icons/success/icon_32.png",
     "48": "icons/success/icon_48.png",
     "128": "icons/success/icon_128.png"
-  },
-  "devtools_page": "devtools.html"
+  }
 }
