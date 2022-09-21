@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import logo from './logo.png';
-import './App.scss';
-import { GitlabConfiguration, GitlabProject } from './chromeServices/model';
+import './Popup.scss';
+import { GitlabConfiguration, GitlabProject } from '../../model';
 
-function App() {
+function Popup() {
 
   const [loading, setLoading] = useState<boolean>(true);
 
   const [gitlabConfiguration, setGitlabConfiugration] = useState<GitlabConfiguration>(
     {
       host: "https://gitlab.com",
-      token: undefined,
+      token: "",
       projects: []
     });
 
@@ -22,15 +22,15 @@ function App() {
 
   useEffect(() => {
     function handleGetGitlabConfiguration(gitlabConfiguration: GitlabConfiguration) {
-        if (!!gitlabConfiguration) {
-          setGitlabConfiugration(gitlabConfiguration);
-        }
-        setLoading(false);
+      if (!!gitlabConfiguration) {
+        setGitlabConfiugration(gitlabConfiguration);
+      }
+      setLoading(false);
     }
 
     chrome.storage.local.get(['configuration'], function (result: any) {
       handleGetGitlabConfiguration(result.configuration);
-      });
+    });
   }, []);
 
   const onDeleteGitlabProject = (gitlabProject: GitlabProject) => {
@@ -57,7 +57,7 @@ function App() {
   }
 
   const saveGitlabConiguration = () => {
-    chrome.storage.local.set({ configuration: gitlabConfiguration}, function () {
+    chrome.storage.local.set({ configuration: gitlabConfiguration }, function () {
       console.debug("Configuration saved");
       window.close();
     });
@@ -69,15 +69,15 @@ function App() {
     evt.preventDefault();
 
     // Check if project does not already exists
-    if ( -1 === gitlabConfiguration.projects.findIndex((gitlabProject) => {
+    if (-1 === gitlabConfiguration.projects.findIndex((gitlabProject) => {
       return newGitlabProject.project === gitlabProject.project && newGitlabProject.branch === gitlabProject.branch
-    }) ) {
+    })) {
       setGitlabConfiugration({
         ...gitlabConfiguration,
-       projects: [...gitlabConfiguration.projects, newGitlabProject]
-     });
+        projects: [...gitlabConfiguration.projects, newGitlabProject]
+      });
     }
-    
+
     setNewGitlabProject({
       project: "",
       branch: "main",
@@ -94,7 +94,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
       </header>
-      
+
       <div className='mb-3'>
         <ul className="list-group">
           {gitlabConfiguration.projects.map(function (gitlabProject, index) {
@@ -126,29 +126,29 @@ function App() {
         </div>
       </form>
 
-      <hr className="my-12"/>
+      <hr className="my-12" />
 
       <form>
         <div className="mb-3">
           <input type="text" placeholder='Gitlab server' className="form-control" id="gitlabServer"
             value={gitlabConfiguration.host}
             onChange={(e) => onGitlabConfigurationValueChange(e.target.value, 'host')}
-            ></input>
+          ></input>
         </div>
         <div className="mb-3">
           <input type="password" placeholder="Gitlab token" className="form-control" id="gitlabToken"
             value={gitlabConfiguration.token}
             onChange={(e) => onGitlabConfigurationValueChange(e.target.value, 'token')}
-            ></input>
+          ></input>
         </div>
       </form>
 
-      <hr className="my-12"/>
+      <hr className="my-12" />
 
-      <button type="button" className="btn btn-primary" onClick={ saveGitlabConiguration }>Save</button>
+      <button type="button" className="btn btn-primary" onClick={saveGitlabConiguration}>Save</button>
 
     </div>
   );
 }
 
-export default App;
+export default Popup;

@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Gitlab pipele monitoring",
+  "description": "A chrome extension to monitor Gitlab pipelines",
+  "background": {
+    "service_worker": "background.bundle.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icons/success/icon_32.png"
+  },
+  "permissions": [
+    "storage",
+    "alarms",
+    "notifications"
+  ],
+  "icons": {
+    "16": "icons/success/icon_16.png",
+    "32": "icons/success/icon_32.png",
+    "48": "icons/success/icon_48.png",
+    "128": "icons/success/icon_128.png"
+  },
+  "devtools_page": "devtools.html"
+}
