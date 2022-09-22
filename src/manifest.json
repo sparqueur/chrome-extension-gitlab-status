@@ -2,6 +2,7 @@
   "manifest_version": 3,
   "name": "Gitlab pipele monitoring",
   "description": "A chrome extension to monitor Gitlab pipelines",
+  "options_page": "options.html",
   "background": {
     "service_worker": "background.bundle.js"
   },

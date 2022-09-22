@@ -71,38 +71,15 @@ async function refreshGitlabStatus(configuration: GitlabConfiguration) {
 
     }
 
-    let globalStatus = "success";
-    if (configuration.projects.findIndex((gitlabProject) => gitlabProject.status === "disconnected") > -1) {
-        globalStatus = "disconnected";
-    }
+    let globalStatus: string;
     if (configuration.projects.findIndex((gitlabProject) => gitlabProject.status === "error") > -1) {
         globalStatus = "error";
-    }
-
-    if (globalStatus === "disconnected" && (configuration.globalStatus === "success" || configuration.globalStatus === "none")) {
-        chrome.notifications.create('NOTFICATION_ID', {
-            type: 'basic',
-            iconUrl: chrome.runtime.getURL("/icons/disconnected/icon_48.png"),
-            title: 'Disconnected pipelines',
-            message: 'Some pipelines status could not be retrieved',
-            priority: 2
-        })
-    }
-
-    if (configuration.globalStatus !== "error" && globalStatus === "error") {
-        chrome.notifications.create('NOTFICATION_ID', {
-            type: 'basic',
-            iconUrl: chrome.runtime.getURL("/icons/error/icon_48.png"),
-            title: 'Pipeline failure',
-            message: 'Some pipelines are in error',
-            priority: 2
-        })
+    } else if (configuration.projects.findIndex((gitlabProject) => gitlabProject.status === "disconnected") > -1) {
+        globalStatus = "disconnected";
+    } else {
+        globalStatus = "success";
     }
     configuration.globalStatus = <any>globalStatus;
-
-    chrome.storage.local.set({ configuration: configuration }, function () {
-        console.debug("Configuration saved");
-    });
 
     chrome.action.setIcon(
         {
@@ -114,4 +91,39 @@ async function refreshGitlabStatus(configuration: GitlabConfiguration) {
             }
         }
     )
-};
+
+    chrome.storage.local.get(['status'], function (result: any) {
+        notifiyOnStatusChange(globalStatus, result?.status?.globalStatus);
+
+        chrome.storage.local.set({ status: configuration }, function () {
+            console.debug("Status saved");
+        });
+    });
+   
+}
+
+function notifiyOnStatusChange(newStatus: string, previousStatus: string) {
+
+    console.error(`newStatus=${newStatus} - previousStatus=${previousStatus}`)
+
+    if (newStatus === "disconnected" && (previousStatus === "success" || previousStatus === "none" || previousStatus === undefined)) {
+        chrome.notifications.create('NOTFICATION_ID', {
+            type: 'basic',
+            iconUrl: chrome.runtime.getURL("/icons/disconnected/icon_48.png"),
+            title: 'Disconnected pipelines',
+            message: 'Some pipelines status could not be retrieved',
+            priority: 2
+        })
+    }
+
+    if (newStatus === "error" && previousStatus !== "error") {
+        chrome.notifications.create('NOTFICATION_ID', {
+            type: 'basic',
+            iconUrl: chrome.runtime.getURL("/icons/error/icon_48.png"),
+            title: 'Pipeline failure',
+            message: 'Some pipelines are in error',
+            priority: 2
+        })
+    }
+
+}
