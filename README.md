@@ -1,6 +1,6 @@
 <img src="src/assets/logo.png" width="128"/>
 
-# Gitlab pipeline status - Chrome Extension
+# Gitlab Monitoring - Chrome Extension
 
 Initially made
 using [Chrome Extension Boilerplate with React 17 and Webpack 5](https://github.com/lxieyang/chrome-extension-boilerplate-react)
@@ -8,7 +8,7 @@ using [Chrome Extension Boilerplate with React 17 and Webpack 5](https://github.
 
 ## Features
 
-This extension let's you monitor your Gitlab pipelines status:
+This extension let's you monitor your Gitlab pipelines:
 
 For this it only requires an Gitlab access token with read-only rights to the projects you wan't to monitor.
 
@@ -24,7 +24,19 @@ For this it only requires an Gitlab access token with read-only rights to the pr
 <img src="screenshots/screenshot2.png" />
 <img src="screenshots/screenshot3.png" />
 
-## Installing and Running
+## Installation
+
+The extension is currently not release in Chrome app store.
+
+1. Download the [latest release](https://github.com/sparqueur/chrome-extension-gitlab-status/releases)
+2. Unzip it
+3. Load the extension on Chrome following:
+   1. Access `chrome://extensions/`
+   2. Check `Developer mode`
+   3. Click on `Load unpacked extension`
+   4. Select the `build` folder.
+
+## Building and Running
 
 ### Procedures:
 
