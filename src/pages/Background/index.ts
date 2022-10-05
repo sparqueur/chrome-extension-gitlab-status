@@ -46,7 +46,7 @@ async function refreshGitlabStatus(configuration: GitlabConfiguration) {
         console.log(`Checking projet [${gitlabProject.project}?ref=${gitlabProject.branch}]`);
 
         try {
-            let pipelines = await api.Pipelines.all(gitlabProject.project, { "ref": gitlabProject.branch });
+            let pipelines = await api.Pipelines.all(gitlabProject.project, { maxPages: 1, perPage: 10, "ref": gitlabProject.branch });
             console.debug(pipelines.length);
             let lastPipeline = pipelines.find((pipeline) => {
                 console.debug("status=" + pipeline.status);
