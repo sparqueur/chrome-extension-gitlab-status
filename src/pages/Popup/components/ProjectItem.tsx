@@ -21,7 +21,7 @@ const ProjectItem = (props: { project: GitlabProject, host: string }) => {
   }
 
   return <li className="list-group-item d-flex justify-content-between align-items-center"><a
-      href={`${props.host}/${props.project}/-/pipelines?page=1&scope=branches&ref=${props.project.branch}`}
+      href={`${props.host}/${props.project.project}/-/pipelines?page=1&scope=branches&ref=${props.project.branch}`}
       target="_blank">{props.project.project} ({props.project.branch})</a>
     {calculateStatus()}</li>
 }
